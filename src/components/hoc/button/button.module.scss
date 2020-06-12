@@ -1,0 +1,13 @@
+.button{
+    white-space: nowrap;
+    border: none;
+    color:whitesmoke;
+    font-size: 12px;
+    background-color:rgb(0, 60, 255);
+    padding:3% 6%;
+    border-radius: 2px;
+    outline: transparent;
+    &:hover{
+        background-color:blue;
+    }
+}
