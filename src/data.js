@@ -151,7 +151,7 @@ const assets = [
 ];
 
 export const getCollectionsAsync = () => {
-    return new Promise((resolve) => setTimeout(() => resolve(collections), 1000));
+    return new Promise((resolve) => setTimeout(() => resolve(collections), 10));
 };
 
 export const getAssetByIdAsync = (assetId) => {
@@ -161,11 +161,11 @@ export const getAssetByIdAsync = (assetId) => {
         throw new Error("Asset not found" + assetId);
     }
 
-    return new Promise((resolve) => setTimeout(() => resolve(asset), 500));
+    return new Promise((resolve) => setTimeout(() => resolve(asset), 5));
 };
 
 export const getAssetsByCollectionAsync = (collectionId) => {
     const collectionAssets = assets.filter((asset) => asset.collectionId === collectionId);
 
-    return new Promise((resolve) => setTimeout(() => resolve(collectionAssets), 1000));
+    return new Promise((resolve) => setTimeout(() => resolve(collectionAssets), 10));
 };
