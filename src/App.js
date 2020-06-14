@@ -4,6 +4,7 @@ import {
   getAssetByIdAsync,
   getAssetsByCollectionAsync,
 } from "./data";
+import _ from 'lodash';
 import Paper from "./components/hoc/paper/paper";
 import Button from "./components/hoc/button/button";
 import Container from "./components/hoc/container/container";
@@ -31,8 +32,14 @@ class App extends Component {
   handleMasterAsset = (id, collectionId) => {
     let collections = this.state.collection;
     console.log("collections", collections);
-    let mastersArray=[];
-    mastersArray.push(id)
+    let mastersArray=this.state.masterAssets;
+    mastersArray.push({collectionId:collectionId,assetId:id})
+
+    let filteredMasters = _.uniqBy( _.map(mastersArray, function(a) {
+      return a.collectionId === collectionId ? {collectionId: collectionId, assetId: id} : a;
+    }),'collectionId')
+    // let filteredMasters = _.uniqBy(mastersArray,'collectionId');
+    console.log('masters array push ',filteredMasters)
     const newArray = collections.map((obj) =>
       obj.id === collectionId ? { ...obj, masterAssetId: id } : obj
     );
@@ -43,7 +50,7 @@ class App extends Component {
         uniqueId: id,
         masterCollectionId: result.collectionId,
         masterPath: result.path,
-        masterAssets:mastersArray
+        masterAssets:filteredMasters
        
       })
     );
@@ -94,7 +101,8 @@ class App extends Component {
                       number={asset.collectionId}
                       masterAssetId={asset.id}
                     >
-                      {this.state.masterPath !== asset.path ? (
+                      { !_.find(this.state.masterAssets,{assetId:asset.id})
+                     ?   (
                         <Button
                           btnText="Set as master"
                           key={asset.id}

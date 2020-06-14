@@ -13,10 +13,10 @@ class  Paper extends Component{
     constructor(props){
         super(props)
             this.state={
-                masterId:'',
-                mainCollectionId:'',
-                uniqueId:'',
-                assetCollectionId:'',
+                // masterId:'',
+                // mainCollectionId:'',
+                // uniqueId:'',
+                // assetCollectionId:'',
                  path:'',
                 
             }
