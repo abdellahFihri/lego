@@ -1,0 +1,9 @@
+#container{
+    margin-top:50px;
+    @media(max-width:390px){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+}

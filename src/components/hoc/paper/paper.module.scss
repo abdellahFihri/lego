@@ -1,15 +1,42 @@
-.paper{
-    width:200px;
-    height: 300px;
-    background-color: blueviolet;
-    margin: 10px;
-    .image{
-background-color: grey;
-width: 80%;
-    
-img{
-    width: 100%;
-  
+@mixin flexCentered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-    }
+.paper {
+  @include flexCentered;
+  width: 200px;
+  height: 280px;
+  border: thick 0.5px black;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease-in-out;
+  animation:scale-in-ver-center .3s cubic-bezier(.25,.46,.45,.94) both;
+  &:hover{
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  margin: 10px;
+
+  img {
+    height: 100%;
+    border-radius: 10px;
+  }
 }
+.image {
+  width: 100%;
+  height: 70%;
+}
+.name {
+  height: 15%;
+  @include flexCentered;
+
+  color: indigo;
+  white-space: nowrap;
+}
+.button {
+  @include flexCentered;
+  height: 15%;
+  width: 100%;
+}
+@keyframes scale-in-ver-center{0%{transform:scaleY(0);opacity:1}100%{transform:scaleY(1);opacity:1}}

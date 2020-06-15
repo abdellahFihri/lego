@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import Navbar from './components/navbar/navbar';
+import fav from './assets/master.png';
 import {
   getCollectionsAsync,
   getAssetByIdAsync,
   getAssetsByCollectionAsync,
 } from "./data";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import _ from 'lodash';
 import Paper from "./components/hoc/paper/paper";
 import Button from "./components/hoc/button/button";
@@ -29,6 +33,29 @@ class App extends Component {
     );
   }
 
+  handleSort(sortBy){
+    console.log('sort fired',sortBy)
+    const sortedAssests=
+    this.state.collectionAssets.sort(function(a, b){
+      switch(sortBy){
+        case 'asc':
+      return a.name === b.name ? 0 : +(a.name > b.name) || -1;
+  
+      case 'desc':
+        return a.name === b.name ? 0 : +(a.name < b.name) || -1;
+        case 'idAsc':
+          return a.id === b.id ? 0 : +(a.id > b.id) || -1;
+          case 'idDesc':
+            return a.id === b.id ? 0 : +(a.id < b.id) || -1;
+    
+      default:
+        return'';
+      }
+    });
+    console.log('sorted obj',sortedAssests)
+    this.setState({collectionAssets:sortedAssests})
+  }
+
   handleMasterAsset = (id, collectionId) => {
     let collections = this.state.collection;
     console.log("collections", collections);
@@ -38,7 +65,7 @@ class App extends Component {
     let filteredMasters = _.uniqBy( _.map(mastersArray, function(a) {
       return a.collectionId === collectionId ? {collectionId: collectionId, assetId: id} : a;
     }),'collectionId')
-    // let filteredMasters = _.uniqBy(mastersArray,'collectionId');
+    
     console.log('masters array push ',filteredMasters)
     const newArray = collections.map((obj) =>
       obj.id === collectionId ? { ...obj, masterAssetId: id } : obj
@@ -56,8 +83,9 @@ class App extends Component {
     );
   };
 
-  getCollectionAssets = (e) => {
-    let id = parseInt(e.target.id);
+  getCollectionAssets = (collectionId,masterId) => {
+    let id =collectionId;
+    this.handleMasterAsset(masterId,id)
     getAssetsByCollectionAsync(id).then((result) =>
       this.setState({ collectionAssets: result })
     );
@@ -65,12 +93,15 @@ class App extends Component {
 
   render() {
     console.log("state in app", this.state);
+
     return (
       <div className="App">
-        <h1>Sitecore app</h1>
+        <Navbar/>
+        
         <Container className="container">
           <Container className="row">
-            <div className="col-md-4">
+            <div className="col-lg-4">
+              
               {this.state.collection.map((collection) => (
                 <CollectionItem
                   name={collection.name}
@@ -80,21 +111,48 @@ class App extends Component {
                   masterCollectionId={this.state.masterCollectionId}
                   masterPath={this.state.masterPath}
                   uniqueId={this.state.uniqueId}
+                  tags={collection.tags}
                 >
                   <Button
                     btnText="View collection"
                     id={collection.id}
-                    onClick={this.getCollectionAssets}
+                    name={collection.masterAssetId}
+                    
+                    onClick={()=>this.getCollectionAssets(collection.id,collection.masterAssetId)}
+                    
+                    
                   />
                 </CollectionItem>
               ))}
             </div>
 
-            <div className="col-md-8">
-              the collection
-              <Container className="row">
+            <div className="col-lg-8">
+              {this.state.collectionAssets.length?
+             
+              <DropdownButton id="dropdown-basic-button" title="Sort by...">
+          {[{action:'asc',
+    label:'Sort by name A-Z'
+  },
+  {action:'desc',
+    label:'Sort by name Z-A'
+  },
+  {action:'idAsc',
+    label:'Sort by id asc'
+  },
+  {action:'idDesc',
+    label:'Sort by id desc'
+  }
+  ].map(item=>
+          <Dropdown.Item href="" onSelect={()=>this.handleSort(item.action)}>{item.label}</Dropdown.Item>
+            )}
+
+</DropdownButton>
+             :'' 
+             }
+                  <Container className="row">
+
                 {this.state.collectionAssets.map((asset) => (
-                  <Container key={asset.id} className="col-md-4">
+                  <Container key={asset.id} className="col-lg-4">
                     <Paper
                       key={asset.id}
                       name={asset.name}
@@ -104,7 +162,7 @@ class App extends Component {
                       { !_.find(this.state.masterAssets,{assetId:asset.id})
                      ?   (
                         <Button
-                          btnText="Set as master"
+                          btnText="Make master"
                           key={asset.id}
                           name={asset.collectionId}
                           onClick={() =>
@@ -112,7 +170,7 @@ class App extends Component {
                           }
                         />
                       ) : (
-                        ""
+                        <img className="star" src={fav} alt="fav"/>
                       )}
                     </Paper>
                   </Container>
@@ -121,7 +179,7 @@ class App extends Component {
             </div>
           </Container>
         </Container>
-        <img src="/images/Bart.jpg" alt="img" />
+        
       </div>
     );
   }

@@ -23,7 +23,10 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+.star{
+  height: 30px!important;
+  animation:rotate-scale-up .4s linear both;
+}
 .App-link {
   color: #61dafb;
 }
@@ -36,3 +39,4 @@
     transform: rotate(360deg);
   }
 }
+@keyframes rotate-scale-up{0%{transform:scale(1) rotateZ(0)}50%{transform:scale(2) rotateZ(180deg)}100%{transform:scale(1) rotateZ(360deg)}}
