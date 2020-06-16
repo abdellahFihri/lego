@@ -16,16 +16,17 @@ class Paper extends Component {
     );
   }
   render() {
+    const { path } = this.state;
+    const { name, masterAssetId, children } = this.props;
     return (
       <div className={styles.paper}>
         <div className={styles.image}>
-          <img src={`images/${this.state.path}`} alt="" />
+          <img src={`images/${path}`} alt="" />
         </div>
         <div className={styles.name}>
-          <span> {this.props.name}</span>{" "}
-          <span>Id:{this.props.masterAssetId}</span>
+          <span> {name}</span> <span>Id:{masterAssetId}</span>
         </div>
-        <div className={styles.button}>{this.props.children}</div>
+        <div className={styles.button}>{children}</div>
       </div>
     );
   }

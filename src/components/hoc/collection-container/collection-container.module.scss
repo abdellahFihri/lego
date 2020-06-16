@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
 }
 
 .container {
@@ -12,10 +11,10 @@
   height: 280px;
   width: 200px;
   border: thick 0.5px black;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: box-shadow 0.3s ease-in-out;
-  &:hover{
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
   border-radius: 10px;
 
@@ -39,6 +38,6 @@
   height: 30%;
   width: 100%;
 }
-.crumps{
+.crumps {
   font-size: 12px;
 }

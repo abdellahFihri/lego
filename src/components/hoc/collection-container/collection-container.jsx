@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./collection-container.module.scss";
-import flatten from 'flat';
+import flatten from "flat";
 import { getAssetByIdAsync } from "../../../data";
 
 class collectionItem extends Component {
@@ -14,9 +14,10 @@ class collectionItem extends Component {
   }
 
   componentDidMount() {
+    const { masterPath, masterAssetId } = this.props;
     this.setState({
-      masterPath: this.props.masterPath,
-      masterAssetId: this.props.masterAssetId,
+      masterPath: masterPath,
+      masterAssetId: masterAssetId,
     });
 
     getAssetByIdAsync(this.state.masterAssetId).then((result) =>
@@ -25,27 +26,28 @@ class collectionItem extends Component {
   }
 
   render() {
-  const breadCrumps=flatten(this.props.tags)
-  let breadCrumpsTags=[];
-  for (let [key, value] of Object.entries(breadCrumps)) {
-    console.log('flatened',`${key}: ${value}`);
-    breadCrumpsTags.push(value);
-    
-  }
-  breadCrumpsTags=breadCrumpsTags.map(tag=>`${tag} >`)
-  let sliced=breadCrumpsTags[breadCrumpsTags.length - 1].slice(0,-1);
-  breadCrumpsTags.pop()
-  breadCrumpsTags.push(sliced)
-    console.log('bread',breadCrumpsTags)
-   
+    const { tags, children, name } = this.props;
+    const { path } = this.state;
+    const breadCrumps = flatten(tags);
+    let breadCrumpsTags = [];
+    for (let [key, value] of Object.entries(breadCrumps)) {
+      breadCrumpsTags.push(value);
+    }
+    breadCrumpsTags = breadCrumpsTags.map((tag) => `${tag} >`);
+    let sliced = breadCrumpsTags[breadCrumpsTags.length - 1].slice(0, -1);
+    breadCrumpsTags.pop();
+    breadCrumpsTags.push(sliced);
+
     return (
       <div className={styles.container}>
         <div className={styles.image}>
-          <img src={`images/${this.state.path}`} alt="img" />
+          <img src={`images/${path}`} alt="img" />
         </div>
 
-        <div className={styles.title}>{this.props.name}</div>
-    <div className={styles.button}>{this.props.children} <span className={styles.crumps}>{breadCrumpsTags}</span></div>
+        <div className={styles.title}>{name}</div>
+        <div className={styles.button}>
+          {children} <span className={styles.crumps}>{breadCrumpsTags}</span>
+        </div>
       </div>
     );
   }
