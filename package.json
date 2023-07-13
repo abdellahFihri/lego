@@ -9,11 +9,11 @@
     "bootstrap": "^4.5.0",
     "flat": "^5.0.0",
     "lodash": "^4.17.15",
-    "node-sass": "^4.14.1",
+    "node-sass": "^9.0.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
